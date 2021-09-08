@@ -1,0 +1,158 @@
+---
+title: Sympy via Reticulate
+author: Peter von Rohr
+date: "`r Sys.Date()`"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Disclaimer
+
+
+# Preparation
+Load the reticulate package
+
+```{r}
+library(reticulate)
+py_config()
+# conda_install(packages = "sympy")
+```
+
+Import python package sympy and do a simple check.
+
+```{python}
+import sympy as sp
+sp.prime(100)
+```
+
+
+# Univariate Normal Distribution
+The univariate normal distribution can be represented as
+
+```{python}
+from sympy.stats import *
+v = Normal('v', 30, 1)
+pdf = density(v)
+z = sp.Symbol('z')
+sp.plot(pdf(z), (z, 27, 31))
+```
+
+More properties of the random variable 'v'
+
+```{python}
+E(v)
+variance(v)
+```
+
+
+Showing the density function
+
+```{python}
+sp.simplify(pdf)
+```
+
+```{python}
+sp.factor(pdf)
+```
+
+```{python}
+sp.print_latex(density(v))
+```
+
+```{python}
+sp.pprint(pdf)
+```
+
+# Further Inspection of sympy.stats
+The following examples are used to further explore sympy.stats
+
+```{r, eval=FALSE}
+reticulate::repl_python()
+```
+
+```{python}
+from sympy.stats import P, E, variance, Die, Normal, density
+from sympy import Eq, simplify
+from sympy import Symbol
+
+X, Y = Die('X', 6), Die('Y', 6) 
+Z = Normal('Z', 0, 1)
+P(X>3)
+E(X+Y)
+variance(X+Y)
+variance(X+Y)
+simplify(P(Z>1))
+
+pdf = density(Z)
+
+# general Normal
+x = Symbol('x')
+m = Symbol('m')
+s = Symbol('s')
+Z = Normal('Z', m, s)
+pdf = density(Z)
+pdf
+pdf(x)
+```
+
+
+# sympy and sympy.stats from R
+As shown on the reticulate website it should be possible to access all python functionality directly from R
+
+```{r}
+# check configuration
+reticulate::py_config()
+```
+
+Import the sympy library and do some basic manipulations
+
+```{r}
+sym <- reticulate::import(module = "sympy")
+sym$simplify(expr = "x + x")
+```
+
+A more difficult example
+
+```{r}
+sym$simplify(expr = "sqrt(8)")
+```
+
+How can we get pretty print to work
+
+```{r, results='asis'}
+s_result <- sym$latex(sym$simplify(expr = "sqrt(8)"))
+cat(paste0("$$\n", s_result, "\n$$\n", collapse = ""))
+```
+
+
+Work with sympy.stats
+
+```{r}
+sym_stats <- reticulate::import(module = "sympy.stats")
+```
+
+The normal distribution
+
+```{r}
+norm_dist <- sym_stats$Normal('Z', 'm', 's')
+norm_dist
+```
+
+The density
+
+```{r}
+pdf <- sym_stats$density(norm_dist)
+pdf
+```
+
+The density function
+
+```{r}
+x <- sym$Symbol('x')
+den_fun <- pdf(x)
+den_fun
+ ```
+

@@ -1,0 +1,105 @@
+---
+title: First Experiments with reticulate
+author: Peter von Rohr
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Disclaimer
+Experiments with using python from RStudio using the reticulate package are shown. 
+
+
+# Resources
+
+* Sean Lopp | R & Python: Going Steady | RStudio (https://www.youtube.com/watch?v=86X0n7jfUoM)
+* Run Python in R code (https://www.youtube.com/watch?v=m_MAYRDIuN4)
+
+
+# Basics
+Basic usage and inter-change of objects between python and R
+
+```{r}
+library(reticulate)
+```
+
+Start by defining an object in R
+
+```{r}
+cars <- mtcars
+```
+
+Do some computations in python
+
+```{python}
+import pandas as pd
+
+```
+
+
+## A second example
+Start with a junk of python code
+
+```{python}
+import numpy as np
+my_python_array = np.array([2,5,3,6])
+for item in my_python_array:
+    print(item)
+
+```
+
+Accessing objects from python in R can be done as follows
+
+```{r}
+my_r_array <- py$my_python_array
+class(my_r_array)
+```
+
+Converting it into a vector 
+
+```{r}
+my_r_vector <- as.vector(my_r_array)
+class(my_r_vector)
+```
+
+
+Operations on the vector
+
+```{r}
+my_r_vector <- my_r_vector * 1.5
+my_r_vector
+```
+
+Putting it back to python
+
+```{python}
+my_python_vector = r.my_r_vector
+print(my_python_vector)
+```
+
+
+## Data Professor
+
+```{r}
+library(reticulate)
+# brings up interactive python shell - restart R-session or type exit to terminate
+#repl_python()
+# python config
+# py_config()
+```
+
+Alternative way of loading python libraries
+
+```{r}
+np <- reticulate::import(module = "numpy")
+# set seed
+np$random$seed(3023424L)
+# set N
+N <- 50L
+x <- np$random$rand(N)
+head(x)
+```
+
