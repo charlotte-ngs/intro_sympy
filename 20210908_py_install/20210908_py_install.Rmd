@@ -1,0 +1,34 @@
+---
+title: Python Installation
+author: Peter von Rohr
+date: "`r Sys.Date()`"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Disclaimer
+Basics on how to get started with python from inside RStudio is shown.
+
+
+# Package reticulate
+Installation 
+
+```{r, eval=FALSE}
+ret_pkg <- "reticulate"
+if (!is.element(ret_pkg, installed.packages())
+    install.packages(ret_pkg, dependencies = TRUE)
+```
+
+
+# Python
+The reticulate package offers the functionality to install python via miniconda. Run
+
+```{r, eval=FALSE}
+reticulate::py_config()
+```
+
+which installs miniconda, if it is not already installed.
+
