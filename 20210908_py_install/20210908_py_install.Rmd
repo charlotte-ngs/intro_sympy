@@ -32,3 +32,15 @@ reticulate::py_config()
 
 which installs miniconda, if it is not already installed.
 
+
+# Examples from the Vignette "Calling Python from R"
+Python modules can be imported by the import function
+
+```{r}
+library(reticulate)
+difflib <- import("difflib")
+difflib$ndiff(list(foo = "blah"), list(bar = "urg"))
+```
+
+
+
