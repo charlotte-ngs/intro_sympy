@@ -1,0 +1,32 @@
+---
+title: Expected Value of a Normal Random Variable Conditional on Other Normal Random Variable
+author: Peter von Rohr
+date: 2021-11-10
+output: bookdown::pdf_document2
+bibliography: bibliography.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# hook for graphics
+# rmdhelp::show_knit_hook_call()
+knitr::knit_hooks$set(hook_convert_odg = rmdhelp::hook_convert_odg)
+# initialise mendeley reference object
+met <- rmdhelp::MendeleyExportToolR6$new()
+met$set_this_rmd_file(ps_this_rmd_file = ifelse(rstudioapi::isAvailable(),
+                              rstudioapi::getActiveDocumentContext()$path,
+                              whereami::thisfile()))
+```
+
+# Disclaimer
+This is a very sketch draft document which tries to explain and to derive why the conditional expected value of a random variable $X$ given a different random variable $Y$ can be expressed as a function of $y$ where $y$ stands for the realised values of the random variable $Y$. It is important to note that we assume that random variables $X$ and $Y$ are normally distributed.
+
+
+# Background
+The above explained fact becomes important when wanting to derive the BLUP for predicting breeding values using a linear mixed effects model. In a simplified version the basic model for a single observation $y_{ij}$ of animal $i$ can be written as
+
+$$y_{ij} = x_i^T \beta + u_i + e_{ij}$$
+
+where $y_{ij}$ is the $j^{th}$ information of animal $i$, $x_i^T \beta$ corresponds to the effect of all fixed systematic environment effects. The terms $u_i$ and $e_{ij}$ correspond to the random normal breeding value and random residual effect, respectively. 
+
+# References
